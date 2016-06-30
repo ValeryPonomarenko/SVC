@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title><%= projectName %> :: Projects :: Indian Lion </title>
+
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+        <link href="/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/css/summernote.css" rel="stylesheet">
+        <style>
+            body{padding-top: 50px;}
+        </style>
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" style="margin-bottom: 0px;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/" class="navbar-brand">Indian Lion</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/board">Board</a></li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Projects <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                            <% projects.forEach(function(project){ %>
+                                <li><a href="/project/<%= project._id %>"><%= project.title %></a></li>
+                            <% }); %>
+                            <li role="separator" class="divider hidden"></li>
+                            </ul>
+                        </li>
+                        <li><a href="/wiki/<%=projectId%>">Wiki</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/profile">Profile</a></li>
+                                <li><a href="/logout">Log out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="dockpanel">
+            <a href="#" class="dockelement" data-toggle="tooltip" data-placement="right" title="Project info"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a>
+            <hr>
+            <a href="/project/<%=projectId%>/kanban" class="dockelement <%if (page == 'kanban') { %>d_active<% } %>" data-toggle="tooltip" data-placement="right" title="Kanban panel"><i class="fa fa-columns fa-2x" aria-hidden="true"></i></a>
+            <a href="/project/<%=projectId%>" class="dockelement <%if (page == 'task') { %>d_active<% } %>" data-toggle="tooltip" data-placement="right" title="Tasks"><i class="fa fa-tasks fa-2x" aria-hidden="true"></i></a>
+            <a href="/project/<%=projectId%>/report" class="dockelement <%if (page == 'report') { %>d_active<% } %>" data-toggle="tooltip" data-placement="right" title="Project's reports"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a>
+            <hr>
+            <span data-toggle="modal" data-target="#addTaskModal"><a href="#" class="dockelement" data-toggle="tooltip" data-placement="right" title="Add new task"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a></span>
+            <span data-toggle="modal" data-target="#addUserModal"><a href="#" class="dockelement" data-toggle="tooltip" data-placement="right" title="Add new user"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></a></span>
+            <a href="#" class="dockelement" data-toggle="tooltip" data-placement="right" title="Remove the project"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a>
+        </div>
+        <div class="container-fluid" style="margin-top: 20px;">
+        <%if (page == 'kanban')  { %>
+            <% include ./partials/projectKanban %>
+        <% } else if (page == 'task'){ %>
+            <% include ./partials/projectTask %>
+        <% } else if (page == 'report'){ %>
+            <% include ./partials/projectReport %>
+        <% } %>
+        </div>
+        
+        <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Create new task</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="#" class="form-horizontal" id="addTaskForm">
+                                    <div class="form-group">
+                                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputTitle" placeholder="Title" name="title" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLabel" class="col-sm-2 control-label">Label</label>
+                                        <div class="col-sm-10">
+                                            <select name="" id="inputLabel" class="form-control">
+                                                <option value="game_design">Game design</option>
+                                                <option value="programming">Programming</option>
+                                                <option value="art">Art</option>
+                                                <option value="sound">Sound</option>
+                                                <option value="bug">Bug</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPriority" class="col-sm-2 control-label">Priority</label>
+                                        <div class="col-sm-10">
+                                            <select name="" id="inputPriority" class="form-control">
+                                                <option value="high">High</option>
+                                                <option value="medium">Medium</option>
+                                                <option value="low">Low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDate" class="col-sm-2 control-label">Due date</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" class="form-control" id="inputDate" placeholder="Date">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-control" id="summernote"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputAttachments" class="col-sm-2 control-label">Attachments</label>
+                                        <div class="col-sm-10">
+                                            <input type="file" id="inputAttachments" multiple="multiple" accept="image">
+                                            <p class="help-block">Attach your image files</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2">
+                                            <button class="btn btn-default" id="addTaskButton" data-loading-text="Sending..." autocomplete="off" type="button">Add task</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Add user to the project</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <form action="#" class="form-horizontal" id="addProjectForm">
+                                    <div class="form-group">
+                                        <label for="inputTag" class="col-sm-2 control-label">Tag</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputTag" placeholder="Tag (e.g. racing-game)" name="tag">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputTitle" placeholder="Title (e.g. Death Race)" name="title">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea type="text" class="form-control" id="inputDescription" placeholder="Description" name="description"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputUrl" class="col-sm-2 control-label">URL</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputUrl" placeholder="URL to your design document" name="document_url">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSVN" class="col-sm-2 control-label">SVN</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSvn" placeholder="Choose a SVN respository" name="svn">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-10 col-sm-offset-2">
+                                            <button class="btn btn-default" id="addProjectButton" data-loading-text="Sending..." autocomplete="off" type="button">Add project</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/projectScript.js"></script>
+        <script src="/js/jquery.pickmeup.min.js"></script>
+        <script src="/js/jquery.pickmeup.twitter-bootstrap.js"></script>
+        <script src="/js/summernote.min.js"></script>
+        
+        <script>
+            $('input#inputDate').pickmeup_twitter_bootstrap({format: 'd-m-Y'});
+            <% if(page == 'task') {%><% if(taskId != 0) {%>socket.emit('get task', '<%=taskId%>');<%}}%>
+            <% if(page == 'task') { %>TEST<% } %>
+        </script>
+    </body>
+</html>

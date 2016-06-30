@@ -1,0 +1,76 @@
+.dockpanel{
+    padding-top: 15px;
+    width: 55px;
+    height: 100%;
+    position: fixed;
+    border-right: 1px solid #e7e7e7;
+    background-color: #f8f8f8;
+    z-index: 1;
+}
+
+.dockelement{
+    color: #777;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-block;
+    width: 54px;
+    text-align: center;
+}
+
+.dockelement:hover{
+    color: #333;
+}
+
+.d_active{
+    color: #333;
+    background-color: #e7e7e7;
+}
+
+.tooltip{
+    width: auto;
+    white-space: nowrap;
+}
+
+.sortMenu{
+    display: inline-block;
+    opacity: 0;
+    z-index: 0;
+}
+
+#settingButtons{
+    right: -180px;
+    z-index: 1;
+}
+
+.lined {
+    width:100%;
+    border-bottom: 1px solid #e7e7e7;
+    line-height:0.1em;
+    margin:10px 0 20px;
+}
+
+.lined span {
+    background: #ffffff;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.game_design{
+    border-left: 4px solid yellow;
+}
+
+.programming{
+    border-left: 4px solid blue;
+}
+
+.sound{
+    border-left: 4px solid green;
+}
+
+.art{
+    border-left: 4px solid orange;
+}
+
+.bug{
+    border-left: 4px solid red;
+}
