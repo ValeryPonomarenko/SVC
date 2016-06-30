@@ -1,4 +1,3 @@
-var socket = io();
 $(function(){
     var showSettings = false;
     var settingsWidth = $('#sortMenu').width() + 10;
@@ -29,9 +28,7 @@ $(function(){
         }
         $('#task-panel').css('margin-left', taskPanelMargin);
     });
-    
-    $('[data-toggle="tooltip"]').tooltip();
-    
+
     $('#showSortMenu').on('click', function(){
         if(showSettings){
             $('#settingButtons').animate({
@@ -76,11 +73,6 @@ $(function(){
     $('button#deleteTaskButton').click(function(){
         var pathname = location.pathname.split('/');
         socket.emit('remove task', pathname[pathname.length-1]);
-    });
-    
-    socket.on('project added', function(projectInfo){
-        var projectLink = $('<li><a href="/project/' + projectInfo.tag + '">' + projectInfo.title + '</a></li>');
-        $('.divider').before(projectLink);
     });
     
     socket.on('task add error', function(error){

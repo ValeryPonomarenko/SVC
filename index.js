@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var BoardController = require('./controllers/boardController');
 var ProjectController = require('./controllers/projectController');
+var WikiController = require('./controllers/wikiController');
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -33,6 +34,18 @@ app.get('/project/:projectId/:taskId', function(req, res){
     ProjectController.MakeTaskViewWithTask(req, res, req.params.taskId);
 });
 
+app.get('/wiki/:projectId', function(req, res){
+    WikiController.MakeWikiView(req, res);
+});
+
+app.get('/wiki/:projectId/add', function (req, res){
+    res.send('add new wiki page');
+});
+
+app.get('/wiki/:projectId/:wikiPageId', function (req, res){
+    res.send('wiki page');
+});
+
 io.on('connection', function(socket){
     socket.on('add project', function(projectInfo){
         BoardController.AddProject(socket, projectInfo);
@@ -45,7 +58,10 @@ io.on('connection', function(socket){
     });
     socket.on('remove task', function(taskId){
         ProjectController.RemoveTask(taskId);
-    })
+    });
+    socket.on('get page', function(pageId){
+        WikiController.GetPage(socket, pageId);
+    });
 });
 
 http.listen(3000, function(){

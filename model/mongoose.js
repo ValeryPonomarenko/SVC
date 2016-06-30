@@ -26,8 +26,18 @@ var Task = new Schema({
     state: { type: String, default: 'waiting'}
 });
 
+var Wiki = new Schema({
+    _id: { type: String, required: true },
+    project_id: { type: String, required: true },
+    title: { type: String, required: true },
+    text: { type: String, required: true },
+    last_time_update: { type: String, required: true }
+});
+
 var TaskModel = mongoose.model('Task', Task);
 var ProjectModel = mongoose.model('Project', Project);
+var WikiModel = mongoose.model('Wiki', Wiki);
 
 module.exports.ProjectModel = ProjectModel;
 module.exports.TaskModel = TaskModel;
+module.exports.WikiModel = WikiModel;
