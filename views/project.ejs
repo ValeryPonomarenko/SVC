@@ -78,7 +78,7 @@
             <% include ./partials/projectReport %>
         <% } %>
         </div>
-        
+
         <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -149,7 +149,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -207,16 +207,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/js/commonScript.js"></script>
-        <script src="/js/projectScript.js"></script>
         <script src="/js/jquery.pickmeup.min.js"></script>
         <script src="/js/jquery.pickmeup.twitter-bootstrap.js"></script>
         <script src="/js/summernote.min.js"></script>
-        
+        <script src="/js/commonScript.js"></script>
+        <script src="/js/projectScript.js"></script>
+
         <script>
             $('input#inputDate').pickmeup_twitter_bootstrap({format: 'd-m-Y'});
-            <% if(page == 'task') {%><% if(taskId != 0) {%>socket.emit('get task', '<%=taskId%>');<%}}%>
-            <% if(page == 'task') { %>TEST<% } %>
         </script>
     </body>
 </html>

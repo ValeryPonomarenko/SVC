@@ -32,6 +32,29 @@ function MakeWikiView(req, res){
     });
 }
 
+function MakeWikiAddPageView(req, res){
+    async.parallel([
+        function(callback){
+            ProjectModel.findById(req.params.projectId, callback);
+        },
+        function(callback){
+            ProjectModel.find(callback);
+        }
+    ], function(err, results){
+        if(!results[0]){
+            res.render('error');
+            return;
+        }
+
+        res.render('wiki', {
+            projectId: req.params.projectId,
+            projectName: results[0].title,
+            projects: results[1],
+            page: 'add'
+        })
+    });
+}
+
 function GetPage(socket, pageId){
     WikiModel.findById(pageId, function(err, page){
         if(!err){
@@ -43,4 +66,5 @@ function GetPage(socket, pageId){
 }
 
 module.exports.MakeWikiView = MakeWikiView;
+module.exports.MakeWikiAddPageView = MakeWikiAddPageView;
 module.exports.GetPage = GetPage;

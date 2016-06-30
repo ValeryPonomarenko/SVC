@@ -65,7 +65,7 @@
     <a href="/project/<%=projectId%>" class="dockelement" data-toggle="tooltip" data-placement="right" title="Tasks"><i class="fa fa-tasks fa-2x" aria-hidden="true"></i></a>
     <a href="/project/<%=projectId%>/report" class="dockelement" data-toggle="tooltip" data-placement="right" title="Project's reports"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a>
     <hr>
-    <a href="/wiki/<%=projectId%>/add" class="dockelement" data-toggle="tooltip" data-placement="right" title="Add new page"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
+    <a href="/wiki/<%=projectId%>/add" class="dockelement <%if(page=='add'){%>d_active<%}%>" data-toggle="tooltip" data-placement="right" title="Add new page"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
 </div>
 <div class="container-fluid" style="margin-top: 20px;">
     <% if (page == 'index'){ %>
@@ -78,9 +78,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/summernote.min.js"></script>
 <script src="/js/commonScript.js"></script>
 <script src="/js/wikiScript.js"></script>
-<script src="/js/summernote.min.js"></script>
-
 </body>
 </html>
