@@ -3,7 +3,7 @@ $(function() {
     var settingsWidth = $('#sortMenu').width() + 10;
     var taskPanelMargin = 0;
 
-    if ($('#take-list').css('width') != undefined) {
+    if ($('#task-list').css('width') != undefined) {
         taskPanelMargin = $('#task-list').css('width').replace('px', '');
         if (taskPanelMargin > 100) {
             taskPanelMargin -= 25;
@@ -24,7 +24,7 @@ $(function() {
     });
 
     $(window).resize(function () {
-        if ($('#take-list').css('width') != undefined) {
+        if ($('#task-list').css('width') != undefined) {
             taskPanelMargin = $('#task-list').css('width').replace('px', '');
             if (taskPanelMargin > 100) {
                 taskPanelMargin -= 25;

@@ -55,6 +55,10 @@ function MakeWikiAddPageView(req, res){
     });
 }
 
+function AddPage(socket, pageInfo) {
+    
+}
+
 function GetPage(socket, pageId){
     WikiModel.findById(pageId, function(err, page){
         if(!err){

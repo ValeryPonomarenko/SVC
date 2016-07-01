@@ -31,7 +31,7 @@ var Wiki = new Schema({
     project_id: {type: String, required: true},
     title: {type: String, required: true},
     text: {type: String, required: true},
-    last_time_update: {type: String, required: true}
+    last_time_update: {type: Date, default: Date.now()}
 });
 
 var TaskModel = mongoose.model('Task', Task);

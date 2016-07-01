@@ -215,6 +215,9 @@
 
         <script>
             $('input#inputDate').pickmeup_twitter_bootstrap({format: 'd-m-Y'});
+            <%if(taskId != 0){%>
+            socket.emit('get task', '<%=taskId%>');
+            <%}%>
         </script>
     </body>
 </html>
