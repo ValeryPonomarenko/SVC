@@ -1,12 +1,24 @@
 <div class="row" style="margin-left:30px;">
     <div class="col-xs-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Add wiki page <div class="pull-right">
-                    <button class="btn btn-success btn-xs" id="0buttonSavePage">Save</button></div></div>
+            <div class="panel-heading">Add wiki page 
+                <div class="pull-right">
+                    <button class="btn btn-success btn-xs" id="buttonSavePage">Save</button>
+                </div>
+            </div>
             <div class="panel-body">
                 <input class="form-control" type="text" id="page_title" placeholder="Page title">
                 <hr>
                 <div id="summernote-add-page"></div>
+                <p class="lined"><span>Attachments</span></p>
+                <div class="input-group">
+                    <input class="note-image-input form-control" id="image-files" name="files" accept="image/*" multiple="multiple" type="file">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" id="buttonSendImages">Send</button>
+                    </span>
+                </div>
+                <hr>
+                <div id="images"></div>
             </div>
         </div>
     </div>

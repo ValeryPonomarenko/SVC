@@ -5,6 +5,7 @@ var io = require('socket.io')(http);
 var BoardController = require('./controllers/boardController');
 var ProjectController = require('./controllers/projectController');
 var WikiController = require('./controllers/wikiController');
+var FileController = require('./controllers/fileController');
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
@@ -61,6 +62,12 @@ io.on('connection', function (socket) {
     });
     socket.on('get page', function (pageId) {
         WikiController.GetPage(socket, pageId);
+    });
+    socket.on('send file', function(name, buffer){
+        FileController.SaveFile(socket, name, __dirname + '/public/attachments/', buffer);
+    });
+    socket.on('remove file', function(name){
+        FileController.RemoveFile(__dirname + '/public/attachments/' + name);
     });
 });
 
