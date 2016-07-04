@@ -69,6 +69,9 @@ io.on('connection', function (socket) {
     socket.on('remove file', function(name){
         FileController.RemoveFile(__dirname + '/public/attachments/' + name);
     });
+    socket.on('add wiki', function(pageInfo){
+        WikiController.AddPage(socket, pageInfo);
+    });
 });
 
 http.listen(3000, function () {

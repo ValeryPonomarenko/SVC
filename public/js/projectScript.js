@@ -5,10 +5,12 @@ $(function() {
 
     if ($('#task-list').css('width') != undefined) {
         taskPanelMargin = $('#task-list').css('width').replace('px', '');
-        if (taskPanelMargin > 100) {
+        if (taskPanelMargin > 946) {
             taskPanelMargin -= 25;
+            $('#task-panel').css('position', 'fixed');
         } else {
             taskPanelMargin = 0;
+            $('#task-panel').removeAttr('style');
         }
         $('#task-panel').css('margin-left', taskPanelMargin);
     }
@@ -26,10 +28,12 @@ $(function() {
     $(window).resize(function () {
         if ($('#task-list').css('width') != undefined) {
             taskPanelMargin = $('#task-list').css('width').replace('px', '');
-            if (taskPanelMargin > 100) {
+            if (taskPanelMargin > 946) {
                 taskPanelMargin -= 25;
+                $('#task-panel').css('position', 'fixed');
             } else {
                 taskPanelMargin = 0;
+                $('#task-panel').removeAttr('style');
             }
             $('#task-panel').css('margin-left', taskPanelMargin);
         }

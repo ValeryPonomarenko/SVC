@@ -27,7 +27,6 @@ var Task = new Schema({
 });
 
 var Wiki = new Schema({
-    _id: {type: String, required: true},
     project_id: {type: String, required: true},
     title: {type: String, required: true},
     text: {type: String, required: true},
