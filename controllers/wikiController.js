@@ -5,7 +5,7 @@ var WikiModel = require('../model/mongoose').WikiModel;
 var ProjectModel = require('../model/mongoose').ProjectModel;
 var async = require('async');
 
-function MakeWikiView(req, res){
+function MakeWikiView(req, res, pageId){
     async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
@@ -27,7 +27,8 @@ function MakeWikiView(req, res){
             projectName: results[0].title,
             projects: results[1],
             page: 'index',
-            pages: results[2]
+            pages: results[2],
+            pageId: pageId
         })
     });
 }

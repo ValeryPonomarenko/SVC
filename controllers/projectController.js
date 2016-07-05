@@ -2,36 +2,8 @@ var TaskModel = require('../model/mongoose').TaskModel;
 var ProjectModel = require('../model/mongoose').ProjectModel;
 var async = require('async');
 
-function MakeTaskView(req, res){
+function MakeTaskView(req, res, taskId){
     async.parallel([
-        function(callback){
-            ProjectModel.findById(req.params.projectId, callback);
-        },
-        function(callback){
-            ProjectModel.find(callback);
-        },
-        function(callback){
-            TaskModel.find({project_id: req.params.projectId}, callback);
-        }
-    ], function(err, results){
-        if(!results[0]){
-            res.render('error');
-            return;
-        }
-        
-        res.render('project', {
-            page: 'task',
-            projectId: req.params.projectId,
-            projectName: results[0].title,
-            projects: results[1],
-            tasks: results[2],
-            taskId: 0
-        })
-    });
-}
-
-function MakeTaskViewWithTask(req, res, taskId){
-        async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
         },
@@ -156,7 +128,6 @@ function RemoveTask(taskId){
 }
 
 module.exports.MakeTaskView = MakeTaskView;
-module.exports.MakeTaskViewWithTask = MakeTaskViewWithTask;
 module.exports.MakeKanbanView = MakeKanbanView;
 module.exports.MakeReportView = MakeReportView;
 module.exports.AddTask = AddTask;

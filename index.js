@@ -20,7 +20,7 @@ app.get('/board', function (req, res) {
 });
 
 app.get('/project/:projectId', function (req, res) {
-    ProjectController.MakeTaskView(req, res);
+    ProjectController.MakeTaskView(req, res, 0);
 });
 
 app.get('/project/:projectId/kanban', function (req, res) {
@@ -32,11 +32,11 @@ app.get('/project/:projectId/report', function (req, res) {
 });
 
 app.get('/project/:projectId/:taskId', function (req, res) {
-    ProjectController.MakeTaskViewWithTask(req, res, req.params.taskId);
+    ProjectController.MakeTaskView(req, res, req.params.taskId);
 });
 
 app.get('/wiki/:projectId', function (req, res) {
-    WikiController.MakeWikiView(req, res);
+    WikiController.MakeWikiView(req, res, 0);
 });
 
 app.get('/wiki/:projectId/add', function (req, res) {
@@ -44,7 +44,7 @@ app.get('/wiki/:projectId/add', function (req, res) {
 });
 
 app.get('/wiki/:projectId/:wikiPageId', function (req, res) {
-    res.send('wiki page');
+    WikiController.MakeWikiView(req, res, req.params.wikiPageId);
 });
 
 io.on('connection', function (socket) {

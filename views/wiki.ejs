@@ -81,5 +81,11 @@
 <script src="/js/summernote.min.js"></script>
 <script src="/js/commonScript.js"></script>
 <script src="/js/wikiScript.js"></script>
+
+<script>
+    <%if(page=='index'){ if(pageId != 0){%>
+    socket.emit('get page', '<%=pageId%>');
+    <%}}%>
+</script>
 </body>
 </html>
