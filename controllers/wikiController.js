@@ -56,8 +56,6 @@ function MakeWikiAddPageView(req, res){
 }
 
 function AddPage(socket, pageInfo) {
-    console.log(pageInfo);
-    
     var page = new WikiModel({
         project_id: pageInfo.project_id,
         title: pageInfo.page_title,
@@ -68,11 +66,11 @@ function AddPage(socket, pageInfo) {
     page.save(function(err){
         if(!err){
             socket.emit('page status', '<a href="/wiki/'+page.project_id+'/'+page._id+'">Page</a> was added!');
+            io.emit('page added', page);
         } else {
             socket.emit('page status', 'Something went wrong, try again later.');
         }
     });
-    console.log(page);
 }
 
 function GetPage(socket, pageId){
@@ -85,7 +83,18 @@ function GetPage(socket, pageId){
     });
 }
 
+function RemovePage(pageId){
+    WikiModel.remove({_id: pageId}, function(err){
+        if(!err){
+            io.emit('remove page', pageId);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
 module.exports.MakeWikiView = MakeWikiView;
 module.exports.MakeWikiAddPageView = MakeWikiAddPageView;
 module.exports.GetPage = GetPage;
 module.exports.AddPage = AddPage;
+module.exports.RemovePage = RemovePage;

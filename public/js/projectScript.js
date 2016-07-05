@@ -125,8 +125,8 @@ $(function() {
         var pathname = location.pathname.split('/');
         if (taskId == pathname[pathname.length - 1]) {
             $('#task-info').fadeOut();
+            history.pushState('Task', 'Title', '/project/' + pathname[2]);
         }
-        history.pushState('Task', 'Title', '/project/' + pathname[2]);
         $('button[data-id=' + taskId + ']').fadeOut(500, function () {
             $(this).remove();
         });

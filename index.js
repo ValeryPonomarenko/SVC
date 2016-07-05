@@ -72,6 +72,9 @@ io.on('connection', function (socket) {
     socket.on('add wiki', function(pageInfo){
         WikiController.AddPage(socket, pageInfo);
     });
+    socket.on('remove page', function(pageId){
+         WikiController.RemovePage(pageId);
+    });
 });
 
 http.listen(3000, function () {

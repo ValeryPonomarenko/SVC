@@ -83,6 +83,11 @@ $(function() {
         $(this).parent().parent().parent().parent().fadeOut('500', function(){$(this).remove();});
         socket.emit('remove file', imageName);
     });
+    
+    $('#deletePageButton').click(function(){
+        var pathname = location.pathname.split('/');
+        socket.emit('remove page', pathname[pathname.length - 1]);
+    });
 
     socket.on('get page', function (pageInfo) {
         $('button[data-id=' + pageInfo._id + ']').addClass('d_active');
@@ -101,5 +106,25 @@ $(function() {
         var pageStatus = $('<div class="alert alert-warning alert-dismissible" role="alert" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + msg + '</div>');
         $('#page-form').before(pageStatus);
         pageStatus.fadeIn();
+    });
+    
+    socket.on('page added', function(pageInfo){
+        if (pageInfo.project_id != location.pathname.split('/')[2]) {
+            return;
+        }
+        alert('page added');
+        var pageButton = $('<button class="list-group-item" id="page" data-id="' + pageInfo._id + '">' + pageInfo.title + '</button>');
+        $('#pages').append(pageButton);
+    });
+    
+    socket.on('remove page', function(pageId){
+        var pathname = location.pathname.split('/');
+        if (pageId == pathname[pathname.length - 1]) {
+            $('#page-info').fadeOut();
+            history.pushState('Page', 'Title', '/wiki/' + pathname[2]);
+        }
+        $('button[data-id=' + pageId + ']').fadeOut(500, function () {
+            $(this).remove();
+        }); 
     });
 });

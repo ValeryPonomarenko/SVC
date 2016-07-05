@@ -44,7 +44,6 @@
                             <li role="separator" class="divider hidden"></li>
                             </ul>
                         </li>
-                        <li><a href="/wiki/<%=projectId%>">Wiki</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -64,6 +63,7 @@
             <a href="/project/<%=projectId%>/kanban" class="dockelement <%if (page == 'kanban') { %>d_active<% } %>" data-toggle="tooltip" data-placement="right" title="Kanban panel"><i class="fa fa-columns fa-2x" aria-hidden="true"></i></a>
             <a href="/project/<%=projectId%>" class="dockelement <%if (page == 'task') { %>d_active<% } %>" data-toggle="tooltip" data-placement="right" title="Tasks"><i class="fa fa-tasks fa-2x" aria-hidden="true"></i></a>
             <a href="/project/<%=projectId%>/report" class="dockelement <%if (page == 'report') { %>d_active<% } %>" data-toggle="tooltip" data-placement="right" title="Project's reports"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a>
+            <a href="/wiki/<%=projectId%>" class="dockelement" data-toggle="tooltip" data-placement="right" title="Project's wiki"><i class="fa fa-wikipedia-w fa-2x" aria-hidden="true"></i></a>
             <hr>
             <span data-toggle="modal" data-target="#addTaskModal"><a href="#" class="dockelement" data-toggle="tooltip" data-placement="right" title="Add new task"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a></span>
             <span data-toggle="modal" data-target="#addUserModal"><a href="#" class="dockelement" data-toggle="tooltip" data-placement="right" title="Add new user"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></a></span>

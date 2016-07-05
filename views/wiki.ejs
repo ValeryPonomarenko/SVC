@@ -44,7 +44,6 @@
                         <li role="separator" class="divider hidden"></li>
                     </ul>
                 </li>
-                <li class="active"><a href="/wiki/<%=projectId%>">Wiki</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -64,6 +63,7 @@
     <a href="/project/<%=projectId%>/kanban" class="dockelement" data-toggle="tooltip" data-placement="right" title="Kanban panel"><i class="fa fa-columns fa-2x" aria-hidden="true"></i></a>
     <a href="/project/<%=projectId%>" class="dockelement" data-toggle="tooltip" data-placement="right" title="Tasks"><i class="fa fa-tasks fa-2x" aria-hidden="true"></i></a>
     <a href="/project/<%=projectId%>/report" class="dockelement" data-toggle="tooltip" data-placement="right" title="Project's reports"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a>
+    <a href="/wiki/<%=projectId%>" class="dockelement <%if(page=='index'){%>d_active<%}%>" data-toggle="tooltip" data-placement="right" title="Project's wiki"><i class="fa fa-wikipedia-w fa-2x" aria-hidden="true"></i></a>
     <hr>
     <a href="/wiki/<%=projectId%>/add" class="dockelement <%if(page=='add'){%>d_active<%}%>" data-toggle="tooltip" data-placement="right" title="Add new page"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a>
 </div>

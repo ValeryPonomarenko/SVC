@@ -2,7 +2,7 @@
     <div class="col-md-5 col-lg-4" id="page-list">
         <div class="panel panel-primary">
             <div class="panel-heading">Wiki pages</div>
-            <div class="pages">
+            <div id="pages">
                 <% pages.forEach(function(wikiPage){ %>
                 <button class="list-group-item" id="page" data-id="<%=wikiPage._id%>"><%=wikiPage.title%></button>
                 <%});%>
@@ -11,9 +11,16 @@
     </div>
     <div class="col-md-7 col-lg-8" id="page-panel" style="position: fixed;">
         <div class="panel panel-default" id="page-info" style="display: none;">
-            <div class="panel-heading" id="page-heading">123</div>
+            <div class="panel-heading">
+                <span id="page-heading"></span>
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button class="btn btn-xs btn-warning" id="editPageButton">Edit</button>
+                        <button class="btn btn-xs btn-danger" id="deletePageButton">Delete</button>
+                    </div>
+                </div>
+            </div>
             <div class="panel-body" id="page-body">
-                body
             </div>
         </div>
     </div>
