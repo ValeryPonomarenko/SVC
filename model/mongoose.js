@@ -33,10 +33,17 @@ var Wiki = new Schema({
     last_time_update: {type: Date, default: Date.now()}
 });
 
+var User = new Schema({
+    username: {type: String, unique: true, required: true},
+    password: {type: String, unique: true, required: true}
+});
+
 var TaskModel = mongoose.model('Task', Task);
 var ProjectModel = mongoose.model('Project', Project);
 var WikiModel = mongoose.model('Wiki', Wiki);
+var UserModel = mongoose.model('User', User);
 
 module.exports.ProjectModel = ProjectModel;
 module.exports.TaskModel = TaskModel;
 module.exports.WikiModel = WikiModel;
+module.exports.UserModel = UserModel;

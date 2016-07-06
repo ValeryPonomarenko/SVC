@@ -2,6 +2,10 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var passport = require('passport');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+
 var BoardController = require('./controllers/boardController');
 var ProjectController = require('./controllers/projectController');
 var WikiController = require('./controllers/wikiController');
@@ -10,6 +14,17 @@ var FileController = require('./controllers/fileController');
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
+app.use(cookieParser());
+app.use(bodyParser.json());
+//app.use(express.session({secret: 'SECRET'}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+var UserController = require('./controllers/userController');
+passport.use(UserController.CheckUser());
+passport.serializeUser(UserController.SerializeUser({user: user, done : done}));
+passport.deserializeUser(UserController.DeserializeUser({id : id, done : done}));
 
 app.get('/', function (req, res) {
     res.render('index');
@@ -47,6 +62,10 @@ app.get('/wiki/:projectId/:wikiPageId', function (req, res) {
     WikiController.MakeWikiView(req, res, req.params.wikiPageId);
 });
 
+app.post('/login', UserController.Login);
+app.post('/register', UserController.Register);
+app.post('/logout', UserController.Logout);
+
 io.on('connection', function (socket) {
     socket.on('add project', function (projectInfo) {
         BoardController.AddProject(socket, projectInfo);
@@ -80,4 +99,5 @@ io.on('connection', function (socket) {
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
+
 global.io = io;
