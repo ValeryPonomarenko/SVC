@@ -3,83 +3,92 @@ var ProjectModel = require('../model/mongoose').ProjectModel;
 var async = require('async');
 
 function MakeTaskView(req, res, taskId){
-    if(!SecurityManager.CheckAuth(req, res)) return;
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.findById(req.params.projectId, callback);
+            },
+            function(callback){
+                ProjectModel.find(callback);
+            },
+            function(callback){
+                TaskModel.find({project_id: req.params.projectId}, callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
+
+            res.render('project', {
+                page: 'task',
+                projectId: req.params.projectId,
+                projectName: results[0].title,
+                projects: results[1],
+                tasks: results[2],
+                taskId: taskId,
+                username: req.cookies.lionSession.username
+            })
+        });
+    };
     
-    async.parallel([
-        function(callback){
-            ProjectModel.findById(req.params.projectId, callback);
-        },
-        function(callback){
-            ProjectModel.find(callback);
-        },
-        function(callback){
-            TaskModel.find({project_id: req.params.projectId}, callback);
-        }
-    ], function(err, results){
-        if(!results[0]){
-            res.render('errors/404');
-            return;
-        }
-        
-        res.render('project', {
-            page: 'task',
-            projectId: req.params.projectId,
-            projectName: results[0].title,
-            projects: results[1],
-            tasks: results[2],
-            taskId: taskId
-        })
-    });
+    SecurityManager.CheckAuth(req, res, callback);
 }
 
 function MakeKanbanView(req, res){
-    if(!SecurityManager.CheckAuth(req, res)) return;
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.findById(req.params.projectId, callback);
+            },
+            function(callback){
+                ProjectModel.find(callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
+
+            res.render('project', {
+                page: 'kanban',
+                projectId: req.params.projectId,
+                projectName: 'Kanban :: ' + results[0].title,
+                projects: results[1],
+                username: req.cookies.lionSession.username
+            })
+        });
+    };
     
-    async.parallel([
-        function(callback){
-            ProjectModel.findById(req.params.projectId, callback);
-        },
-        function(callback){
-            ProjectModel.find(callback);
-        }
-    ], function(err, results){
-        if(!results[0]){
-            res.render('errors/404');
-            return;
-        }
-        
-        res.render('project', {
-            page: 'kanban',
-            projectId: req.params.projectId,
-            projectName: 'Kanban :: ' + results[0].title,
-            projects: results[1]
-        })
-    });
+    SecurityManager.CheckAuth(req, res, callback);
 }
 
 function MakeReportView(req, res){
-    if(!SecurityManager.CheckAuth(req, res)) return;
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.findById(req.params.projectId, callback);
+            },
+            function(callback){
+                ProjectModel.find(callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
+
+            res.render('project', {
+                page: 'report',
+                projectId: req.params.projectId,
+                projectName: 'Report :: ' + results[0].title,
+                projects: results[1],
+                username: req.cookies.lionSession.username
+            })
+        });
+    };
     
-    async.parallel([
-        function(callback){
-            ProjectModel.findById(req.params.projectId, callback);
-        },
-        function(callback){
-            ProjectModel.find(callback);
-        }
-    ], function(err, results){
-        if(!results[0]){
-            res.render('errors/404');
-            return;
-        }
-        
-        res.render('project', {
-            page: 'report',
-            projectId: req.params.projectId,
-            projectName: 'Report :: ' + results[0].title,
-            projects: results[1]
-        })
-    });
+    SecurityManager.CheckAuth(req, res, callback);
 }
 
 function AddTask(socket, taskInfo){

@@ -6,58 +6,64 @@ var ProjectModel = require('../model/mongoose').ProjectModel;
 var async = require('async');
 
 function MakeWikiView(req, res, pageId){
-    if(!SecurityManager.CheckAuth(req, res)) return;
-    
-    async.parallel([
-        function(callback){
-            ProjectModel.findById(req.params.projectId, callback);
-        },
-        function(callback){
-            ProjectModel.find(callback);
-        },
-        function(callback){
-            WikiModel.find({project_id: req.params.projectId}, callback);
-        }
-    ], function(err, results){
-        if(!results[0]){
-            res.render('errors/404');
-            return;
-        }
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.findById(req.params.projectId, callback);
+            },
+            function(callback){
+                ProjectModel.find(callback);
+            },
+            function(callback){
+                WikiModel.find({project_id: req.params.projectId}, callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
 
-        res.render('wiki', {
-            projectId: req.params.projectId,
-            projectName: results[0].title,
-            projects: results[1],
-            page: 'index',
-            pages: results[2],
-            pageId: pageId
-        })
-    });
+            res.render('wiki', {
+                projectId: req.params.projectId,
+                projectName: results[0].title,
+                projects: results[1],
+                page: 'index',
+                pages: results[2],
+                pageId: pageId,
+                username: req.cookies.lionSession.username
+            })
+        });
+    };
+    
+    SecurityManager.CheckAuth(req, res, callback);
 }
 
 function MakeWikiAddPageView(req, res){
-    if(!SecurityManager.CheckAuth(req, res)) return;
-    
-    async.parallel([
-        function(callback){
-            ProjectModel.findById(req.params.projectId, callback);
-        },
-        function(callback){
-            ProjectModel.find(callback);
-        }
-    ], function(err, results){
-        if(!results[0]){
-            res.render('errors/404');
-            return;
-        }
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.findById(req.params.projectId, callback);
+            },
+            function(callback){
+                ProjectModel.find(callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
 
-        res.render('wiki', {
-            projectId: req.params.projectId,
-            projectName: results[0].title,
-            projects: results[1],
-            page: 'add'
-        })
-    });
+            res.render('wiki', {
+                projectId: req.params.projectId,
+                projectName: results[0].title,
+                projects: results[1],
+                page: 'add',
+                username: req.cookies.lionSession.username
+            })
+        });
+    };
+    
+    SecurityManager.CheckAuth(req, res, callback);
 }
 
 function AddPage(socket, pageInfo) {

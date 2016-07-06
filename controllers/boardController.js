@@ -1,15 +1,17 @@
 var ProjectModel = require('../model/mongoose').ProjectModel;
 
 function MakeView(req, res){
-    if(!SecurityManager.CheckAuth(req, res)) return;
-    
-    ProjectModel.find(function(err, projects){
-        if(!err){
-            res.render('board',{
-                projects: projects
-            });
-        }
-    });
+    callback = function(){
+        ProjectModel.find(function(err, projects){
+            if(!err){
+                res.render('board',{
+                    projects: projects,
+                    username: req.cookies.lionSession.username
+                });
+            }
+        });
+    };
+    SecurityManager.CheckAuth(req, res, callback)
 }
 
 function AddProject(socket, projectInfo){

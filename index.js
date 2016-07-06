@@ -9,6 +9,7 @@ var ProjectController = require('./controllers/projectController');
 var WikiController = require('./controllers/wikiController');
 var FileController = require('./controllers/fileController');
 var SecurityController = require('./controllers/securityController');
+var UserController = require('./controllers/userController');
 
 app.set('view engine', 'ejs');
 app.use(cookieParser());
@@ -17,7 +18,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
+    if(req.cookies.lionSession != undefined){ res.redirect('/board'); return;}
     res.render('index');
+});
+
+app.get('/reg', function(req, res){
+    res.render('reg');
+});
+
+app.get('/logout', function(req, res){
+    res.clearCookie('lionSession');
+    res.redirect('/');
 });
 
 app.get('/board', function (req, res) {
@@ -53,13 +64,16 @@ app.get('/wiki/:projectId/:wikiPageId', function (req, res) {
 });
 
 app.post('/login', function(req, res){
-    if(SecurityManager.CheckUser(req.body.username, req.body.password)){
-        res.redirect('/board');
-    } else {
-        res.redirect('/');
-    }
-})
+    UserController.CheckUser(req.body.username, req.body.password, res);
+});
 
+app.post('/reg', function(req, res){
+    UserController.RegUser(req.body.username,
+                           req.body.password,
+                           req.body.email,
+                           req.body.firstname,
+                           res);
+});
 
 io.on('connection', function (socket) {
     socket.on('add project', function (projectInfo) {
@@ -87,7 +101,7 @@ io.on('connection', function (socket) {
         WikiController.AddPage(socket, pageInfo);
     });
     socket.on('remove page', function(pageId){
-         WikiController.RemovePage(pageId);
+        WikiController.RemovePage(pageId);
     });
 });
 
