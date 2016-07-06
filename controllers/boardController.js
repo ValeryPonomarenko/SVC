@@ -1,6 +1,8 @@
 var ProjectModel = require('../model/mongoose').ProjectModel;
 
 function MakeView(req, res){
+    if(!SecurityManager.CheckAuth(req, res)) return;
+    
     ProjectModel.find(function(err, projects){
         if(!err){
             res.render('board',{

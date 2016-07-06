@@ -3,6 +3,8 @@ var ProjectModel = require('../model/mongoose').ProjectModel;
 var async = require('async');
 
 function MakeTaskView(req, res, taskId){
+    if(!SecurityManager.CheckAuth(req, res)) return;
+    
     async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
@@ -15,7 +17,7 @@ function MakeTaskView(req, res, taskId){
         }
     ], function(err, results){
         if(!results[0]){
-            res.render('error');
+            res.render('errors/404');
             return;
         }
         
@@ -31,6 +33,8 @@ function MakeTaskView(req, res, taskId){
 }
 
 function MakeKanbanView(req, res){
+    if(!SecurityManager.CheckAuth(req, res)) return;
+    
     async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
@@ -40,7 +44,7 @@ function MakeKanbanView(req, res){
         }
     ], function(err, results){
         if(!results[0]){
-            res.render('error');
+            res.render('errors/404');
             return;
         }
         
@@ -54,6 +58,8 @@ function MakeKanbanView(req, res){
 }
 
 function MakeReportView(req, res){
+    if(!SecurityManager.CheckAuth(req, res)) return;
+    
     async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
@@ -63,7 +69,7 @@ function MakeReportView(req, res){
         }
     ], function(err, results){
         if(!results[0]){
-            res.render('error');
+            res.render('errors/404');
             return;
         }
         

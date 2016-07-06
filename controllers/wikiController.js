@@ -6,6 +6,8 @@ var ProjectModel = require('../model/mongoose').ProjectModel;
 var async = require('async');
 
 function MakeWikiView(req, res, pageId){
+    if(!SecurityManager.CheckAuth(req, res)) return;
+    
     async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
@@ -18,7 +20,7 @@ function MakeWikiView(req, res, pageId){
         }
     ], function(err, results){
         if(!results[0]){
-            res.render('error');
+            res.render('errors/404');
             return;
         }
 
@@ -34,6 +36,8 @@ function MakeWikiView(req, res, pageId){
 }
 
 function MakeWikiAddPageView(req, res){
+    if(!SecurityManager.CheckAuth(req, res)) return;
+    
     async.parallel([
         function(callback){
             ProjectModel.findById(req.params.projectId, callback);
@@ -43,7 +47,7 @@ function MakeWikiAddPageView(req, res){
         }
     ], function(err, results){
         if(!results[0]){
-            res.render('error');
+            res.render('errors/404');
             return;
         }
 
