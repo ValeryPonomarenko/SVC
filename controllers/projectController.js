@@ -1,5 +1,6 @@
 var TaskModel = require('../model/mongoose').TaskModel;
 var ProjectModel = require('../model/mongoose').ProjectModel;
+var WikiModel = require('../model/mongoose').WikiModel;
 var async = require('async');
 
 function MakeTaskView(req, res, taskId){
@@ -13,6 +14,9 @@ function MakeTaskView(req, res, taskId){
             },
             function(callback){
                 TaskModel.find({project_id: req.params.projectId}, callback);
+            },
+            function(callback){
+                WikiModel.find({project_id: req.params.projectId}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -27,7 +31,8 @@ function MakeTaskView(req, res, taskId){
                 projects: results[1],
                 tasks: results[2],
                 taskId: taskId,
-                username: req.cookies.lionSession.username
+                username: req.cookies.lionSession.username,
+                wikiPages: results[3]
             })
         });
     };
@@ -43,6 +48,9 @@ function MakeKanbanView(req, res){
             },
             function(callback){
                 ProjectModel.find(callback);
+            },
+            function(callback){
+                WikiModel.find({project_id: req.params.projectId}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -55,7 +63,8 @@ function MakeKanbanView(req, res){
                 projectId: req.params.projectId,
                 projectName: 'Kanban :: ' + results[0].title,
                 projects: results[1],
-                username: req.cookies.lionSession.username
+                username: req.cookies.lionSession.username,
+                wikiPages: results[2]
             })
         });
     };
@@ -71,6 +80,9 @@ function MakeReportView(req, res){
             },
             function(callback){
                 ProjectModel.find(callback);
+            },
+            function(callback){
+                WikiModel.find({project_id: req.params.projectId}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -83,7 +95,8 @@ function MakeReportView(req, res){
                 projectId: req.params.projectId,
                 projectName: 'Report :: ' + results[0].title,
                 projects: results[1],
-                username: req.cookies.lionSession.username
+                username: req.cookies.lionSession.username,
+                wikiPages: results[2]
             })
         });
     };
@@ -105,7 +118,8 @@ function AddTask(socket, taskInfo){
         description: taskInfo.description,
         label: taskInfo.label,
         priority: taskInfo.priority,
-        due_date: taskInfo.due_date
+        due_date: taskInfo.due_date,
+        wikiPageId: taskInfo.wikiPageId
     });
     
     task.save(function(err){

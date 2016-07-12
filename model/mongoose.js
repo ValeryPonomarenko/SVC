@@ -22,6 +22,7 @@ var Task = new Schema({
     description: {type: String, required: true},
     label: {type: String, required: true},
     priority: {type: String, required: true},
+    wikiPageId: {type: String, required: true},
     due_date: {type: String, required: true},
     state: {type: String, default: 'waiting'}
 });

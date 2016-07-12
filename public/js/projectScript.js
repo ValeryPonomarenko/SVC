@@ -78,7 +78,8 @@ $(function() {
             label: $('#inputLabel').val(),
             priority: $('#inputPriority').val(),
             attachments: 'attachments',
-            due_date: $('#inputDate').val()
+            due_date: $('#inputDate').val(),
+            wikiPageId: $('#inputWikiPage').val()
         };
 
         socket.emit('add task', task);
@@ -117,6 +118,7 @@ $(function() {
         $('#task-priority').text(taskInfo.priority);
         $('#task-status').text(taskInfo.state);
         $('#task-duedate').text(taskInfo.due_date);
+        $('#task-wikiPageId').attr('href', '/wiki/'+taskInfo.project_id+'/'+taskInfo.wikiPageId);
 
         $('#task-info').fadeIn();
     })

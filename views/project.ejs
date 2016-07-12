@@ -125,6 +125,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label for="inputDate" class="col-sm-2 control-label">Wiki page</label>
+                                        <div class="col-sm-10">
+                                            <select name="" id="inputWikiPage" class="form-control">
+                                                <% wikiPages.forEach(function(wikiPage){ %>
+                                                <option value="<%=wikiPage._id%>"><%=wikiPage.title%></option>
+                                                <% }); %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="inputDescription" class="col-sm-2 control-label">Description</label>
                                         <div class="col-sm-10">
                                             <div class="form-control" id="summernote"></div>
@@ -160,43 +170,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-xs-12">
-                                <form action="#" class="form-horizontal" id="addProjectForm">
-                                    <div class="form-group">
-                                        <label for="inputTag" class="col-sm-2 control-label">Tag</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputTag" placeholder="Tag (e.g. racing-game)" name="tag">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputTitle" placeholder="Title (e.g. Death Race)" name="title">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputDescription" class="col-sm-2 control-label">Description</label>
-                                        <div class="col-sm-10">
-                                            <textarea type="text" class="form-control" id="inputDescription" placeholder="Description" name="description"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputUrl" class="col-sm-2 control-label">URL</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputUrl" placeholder="URL to your design document" name="document_url">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputSVN" class="col-sm-2 control-label">SVN</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputSvn" placeholder="Choose a SVN respository" name="svn">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-sm-offset-2">
-                                            <button class="btn btn-default" id="addProjectButton" data-loading-text="Sending..." autocomplete="off" type="button">Add project</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                
                             </div>
                         </div>
                     </div>
