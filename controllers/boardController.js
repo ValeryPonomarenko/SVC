@@ -26,8 +26,7 @@ function AddProject(socket, projectInfo){
         _id: projectInfo.tag,
         title: projectInfo.title,
         description: projectInfo.description,
-        document_url: projectInfo.url,
-        svn_name: projectInfo.svn_name
+        svn_url: projectInfo.svn_url
     });
     
     project.save(function(err){

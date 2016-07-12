@@ -12,8 +12,7 @@ var Project = new Schema({
     _id: {type: String, required: true},
     title: {type: String, required: true},
     description: {type: String, required: true},
-    document_url: {type: String, required: true},
-    svn_name: {type: String, required: true}
+    svn_url: {type: String, required: true}
 });
 
 var Task = new Schema({

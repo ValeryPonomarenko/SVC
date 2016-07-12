@@ -8,8 +8,7 @@ $(function(){
             tag: $('#inputTag').val(),
             title: $('#inputTitle').val(),
             description: $('#inputDescription').val(),
-            url: $('#inputUrl').val(),
-            svn_name: $('#inputSvn').val()
+            svn_url: $('#inputSvn').val()
         }
         socket.emit('add project', projectInfo);
     });

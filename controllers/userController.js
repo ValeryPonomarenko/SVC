@@ -16,11 +16,9 @@ function RegUser(username, passowrd, email, firstname, res){
         }
     ], function(err){
         if(!err){
-            console.log('true');
             res.cookie('lionSession', {username: username});
             res.redirect('board')
         } else {
-            console.log('false');
             res.redirect('reg')
         }
     });
