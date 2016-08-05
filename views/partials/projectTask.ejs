@@ -18,7 +18,7 @@
             </div>
             <div id="tasks">
                 <% tasks.forEach(function(task){ %>
-                <button class="list-group-item <%=task.label%>" id="task" data-id="<%=task._id%>"><%=task.title%></button>
+                <button class="list-group-item <%=task.label%>" id="task" data-id="<%=task._id%>"><%=task.title%><div class="pull-right"><span class="label label-info"><%=task.due_date%></span></div></button>
                 <% }); %>
             </div>
         </div>

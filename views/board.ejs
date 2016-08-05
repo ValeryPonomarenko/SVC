@@ -7,7 +7,8 @@
         <title>Board :: Indian Lion</title>
 
         <link href="/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/css/font-awesome.min.css" rel="stylesheet" >
+        <link href="/css/style.css" rel="stylesheet">
+        <link href="/css/font-awesome.min.css" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,9 +67,9 @@
                 <div class="col-md-7">
                     <div class="panel panel-default">
                         <div class="panel-heading">Assigned to me</div>
-                        <div class="panel-body">
-                            My tasks
-                        </div>
+                        <% tasks.forEach(function(task){ %>
+                        <a href="/project/<%=task.project_id%>/<%=task._id%>" class="list-group-item <%=task.label%>"><%=task.project_id%> :: <%=task.title%><div class="pull-right"><span class="label label-info"><%=task.due_date%></span></div></a>
+                        <% }); %>
                     </div>
                     <div class="panel panel-info">
                         <div class="panel-heading">Activity stream</div>

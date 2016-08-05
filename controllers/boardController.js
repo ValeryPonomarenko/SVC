@@ -1,6 +1,9 @@
 var ProjectModel = require('../model/mongoose').ProjectModel;
+var TaskModel = require('../model/mongoose').TaskModel;
+var async = require('async');
 
 function MakeView(req, res){
+    /*
     callback = function(){
         ProjectModel.find(function(err, projects){
             if(!err){
@@ -11,6 +14,29 @@ function MakeView(req, res){
             }
         });
     };
+    */
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.find(callback);
+            },
+            function(callback){
+                TaskModel.find({assignee: req.cookies.lionSession.username}, callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
+            
+            res.render('board', {
+                projects: results[0],
+                username: req.cookies.lionSession.username,
+                tasks: results[1]
+            })
+        });
+    };
+    
     SecurityManager.CheckAuth(req, res, callback)
 }
 

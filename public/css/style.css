@@ -56,21 +56,21 @@
 }
 
 .game_design{
-    border-left: 4px solid yellow;
+    border-left: 6px solid #5cb85c;
 }
 
 .programming{
-    border-left: 4px solid blue;
+    border-left: 6px solid #337ab7;
 }
 
 .sound{
-    border-left: 4px solid green;
+    border-left: 6px solid #5bc0de;
 }
 
 .art{
-    border-left: 4px solid orange;
+    border-left: 6px solid #f0ad4e;
 }
 
 .bug{
-    border-left: 4px solid red;
+    border-left: 6px solid #d9534f;
 }
