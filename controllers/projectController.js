@@ -156,9 +156,27 @@ function RemoveTask(taskId){
     });
 }
 
+function AddAssignee(username, taskId){
+    TaskModel.findById(taskId, function(err, task){
+        if(!err){
+            if(task.assignee == undefined){
+                task.assignee = username;
+                task.save(function(err){
+                    if(!err){
+                        io.emit('assignee added', username, taskId);
+                    } else {
+                        console.log('error ' + err);
+                    }
+                });
+            }
+        }
+    });
+}
+
 module.exports.MakeTaskView = MakeTaskView;
 module.exports.MakeKanbanView = MakeKanbanView;
 module.exports.MakeReportView = MakeReportView;
 module.exports.AddTask = AddTask;
 module.exports.GetTask = GetTask;
 module.exports.RemoveTask = RemoveTask;
+module.exports.AddAssignee = AddAssignee;

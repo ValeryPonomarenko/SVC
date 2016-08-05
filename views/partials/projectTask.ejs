@@ -41,7 +41,7 @@
                                     <input type="radio" name="options" autocomplete="off" >Done
                                 </label>
                             </div>
-                            <button class="btn btn-xs btn-primary">Assign to me</button>
+                            <button class="btn btn-xs btn-primary" id="assignToMe">Assign to me</button>
                             <div class="btn-group">
                                 <button class="btn btn-xs btn-primary">Assign to</button>
                                 <button class="btn btn-xs btn-danger" id="deleteTaskButton">Delete</button>
@@ -65,6 +65,9 @@
                     </div>
                     <div class="col-sm-4">
                         <p class="lined"><span>People</span></p>
+                        <div class="col-xs-12">
+                            <p id="assignedUser"></p>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

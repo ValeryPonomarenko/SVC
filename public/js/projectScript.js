@@ -89,6 +89,13 @@ $(function() {
         var pathname = location.pathname.split('/');
         socket.emit('remove task', pathname[pathname.length - 1]);
     });
+    
+    $('button#assignToMe').click(function(){
+        if($('#assignedUser').is(':empty')){
+            var pathname = location.pathname.split('/');
+            socket.emit('assignee added', $('span#username').text(), pathname[pathname.length-1]);
+        }
+    });
 
     socket.on('task add error', function (error) {
         $('#addTaskButton').button('reset');
@@ -119,7 +126,15 @@ $(function() {
         $('#task-status').text(taskInfo.state);
         $('#task-duedate').text(taskInfo.due_date);
         $('#task-wikiPageId').attr('href', '/wiki/'+taskInfo.project_id+'/'+taskInfo.wikiPageId);
-
+        
+        if(taskInfo.assignee != undefined){
+            $('button#assignToMe').fadeOut();
+            $('#assignedUser').text(taskInfo.assignee);
+        } else {
+            $('button#assignToMe').fadeIn();
+            $('#assignedUser').empty();
+        }
+        
         $('#task-info').fadeIn();
     })
 
@@ -132,5 +147,13 @@ $(function() {
         $('button[data-id=' + taskId + ']').fadeOut(500, function () {
             $(this).remove();
         });
+    });
+    
+    socket.on('assignee added', function (username, taskId){
+        var pathname = location.pathname.split('/');
+        if (taskId == pathname[pathname.length - 1]) {
+            $('button#assignToMe').fadeOut();
+            $('#assignedUser').append('<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzu947KXQJ74ZYxf5DPPUH0sAYLLSG--wXYM8XJ2wA_JNggPDh3Q9Fgfg" alt="" style="width:20px;">'+username);
+        }
     });
 });

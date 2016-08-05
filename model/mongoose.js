@@ -23,7 +23,8 @@ var Task = new Schema({
     priority: {type: String, required: true},
     wikiPageId: {type: String, required: true},
     due_date: {type: String, required: true},
-    state: {type: String, default: 'waiting'}
+    state: {type: String, default: 'waiting'},
+    assignee: {type: String}
 });
 
 var Wiki = new Schema({
