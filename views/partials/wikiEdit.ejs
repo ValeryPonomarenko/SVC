@@ -1,0 +1,30 @@
+<div class="row" style="margin-left:30px;">
+    <div class="col-xs-12">
+        <div class="panel panel-default" id="page-form">
+            <div class="panel-heading">Edit wiki page 
+                <div class="pull-right">
+                    <button class="btn btn-info btn-xs" id="buttonUpdatePage">Update</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <input class="form-control" type="text" id="page_title" value="<%=wikiPageTitle%>" readonly disabled>
+                <hr>
+                <div id="summernote-add-page"></div>
+                <p class="lined"><span>Attachments</span></p>
+                <div class="input-group">
+                    <input class="note-image-input form-control" id="image-files" name="files" accept="image/*" multiple="multiple" type="file">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" id="buttonSendImages">Send</button>
+                    </span>
+                </div>
+                <hr>
+                <div id="images"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var pageText = '<%=wikiPageText%>';
+    pageText = pageText.replace(/&gt;/g, '>').replace(/&lt;/g,'<').replace(/&#34;/g, '"');
+    document.getElementById('summernote-add-page').innerHTML = pageText;
+</script>

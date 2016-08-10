@@ -93,6 +93,7 @@ $(function() {
         $('button[data-id=' + pageInfo._id + ']').addClass('d_active');
         $('#page-heading').text(pageInfo.title);
         $('#page-body').html(pageInfo.text);
+        $('#editPageButton').attr('href', '/wiki/'+pageInfo.project_id+'/'+pageInfo._id+'/edit');
         $('#page-info').fadeIn();
     });
     

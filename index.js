@@ -59,6 +59,10 @@ app.get('/wiki/:projectId/add', function (req, res) {
     WikiController.MakeWikiAddPageView(req, res);
 });
 
+app.get('/wiki/:projectId/:wikiPageId/edit', function (req, res) {
+    WikiController.MakeWikiEditPageView(req, res, req.params.wikiPageId);
+});
+
 app.get('/wiki/:projectId/:wikiPageId', function (req, res) {
     WikiController.MakeWikiView(req, res, req.params.wikiPageId);
 });

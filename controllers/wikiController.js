@@ -66,6 +66,39 @@ function MakeWikiAddPageView(req, res){
     SecurityManager.CheckAuth(req, res, callback);
 }
 
+function MakeWikiEditPageView(req, res, pageId){
+    callback = function(){
+        async.parallel([
+            function(callback){
+                ProjectModel.findById(req.params.projectId, callback);
+            },
+            function(callback){
+                ProjectModel.find(callback);
+            },
+            function(callback){
+                WikiModel.findById(pageId, callback);
+            }
+        ], function(err, results){
+            if(!results[0]){
+                res.render('errors/404');
+                return;
+            }
+
+            res.render('wiki', {
+                projectId: req.params.projectId,
+                projectName: results[0].title,
+                projects: results[1],
+                page: 'edit',
+                wikiPageTitle: results[2].title,
+                wikiPageText: results[2].text,
+                username: req.cookies.lionSession.username
+            })
+        });
+    };
+    
+    SecurityManager.CheckAuth(req, res, callback);
+}
+
 function AddPage(socket, pageInfo) {
     var page = new WikiModel({
         project_id: pageInfo.project_id,
@@ -106,6 +139,7 @@ function RemovePage(pageId){
 
 module.exports.MakeWikiView = MakeWikiView;
 module.exports.MakeWikiAddPageView = MakeWikiAddPageView;
+module.exports.MakeWikiEditPageView = MakeWikiEditPageView;
 module.exports.GetPage = GetPage;
 module.exports.AddPage = AddPage;
 module.exports.RemovePage = RemovePage;
