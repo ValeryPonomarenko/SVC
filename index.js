@@ -111,10 +111,10 @@ io.on('connection', function (socket) {
     });
     
     socket.on('send file', function(name, buffer){
-        FileController.SaveFile(socket, name, __dirname + '/public/attachments/', buffer);
+        FileController.SaveFile(socket, name, buffer);
     });
     socket.on('remove file', function(name){
-        FileController.RemoveFile(__dirname + '/public/attachments/', name);
+        FileController.RemoveFile(name);
     });
 });
 
@@ -123,3 +123,5 @@ http.listen(3000, function () {
 });
 global.io = io;
 global.SecurityManager = SecurityController;
+global.FileManager = FileController;
+global.attachmentDir = __dirname + '/public/attachments/';

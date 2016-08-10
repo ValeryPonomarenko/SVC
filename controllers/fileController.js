@@ -1,9 +1,9 @@
 var AttachmentModel = require('../model/mongoose').AttachmentModel;
 
-function SaveFile(socket, name, pathToSave, buffer){
+function SaveFile(socket, name, buffer){
     var fs = require('fs');
     name = Date.now() + name;
-    pathToSave += name;
+    var pathToSave = attachmentDir + name;
 
     fs.open(pathToSave, 'a', 0755, function(err, fd){
         if(err) console.log(err);
@@ -16,13 +16,13 @@ function SaveFile(socket, name, pathToSave, buffer){
     });
 }
 
-function RemoveFile(path, name){
+function RemoveFile(name){
     AttachmentModel.remove({attachmentName: name}, function(err){
         if(err){
             console.log('RemoveFile - error: ' + err);
         }
     });
-    var fullPath = path + name;
+    var fullPath = attachmentDir + name;
     var fs = require('fs');
     fs.unlinkSync(fullPath);
 }

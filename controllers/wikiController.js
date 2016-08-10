@@ -174,6 +174,11 @@ function GetPage(socket, pageId){
 function RemovePage(pageId){
     WikiModel.remove({_id: pageId}, function(err){
         if(!err){
+            AttachmentModel.find({page_id: pageId}, function(err, objects){
+                objects.forEach(function(object, i){
+                    FileManager.RemoveFile(object.attachmentName);
+                });
+            });
             io.emit('remove page', pageId);
         } else {
             console.log(err);
