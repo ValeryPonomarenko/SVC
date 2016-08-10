@@ -41,12 +41,19 @@ var User = new Schema({
     firstname: {type: String, required: true}
 });
 
+var Attachment = new Schema({
+    page_id: {type: String, required: true},
+    attachemntName: {type: String, required: true}
+});
+
 var TaskModel = mongoose.model('Task', Task);
 var ProjectModel = mongoose.model('Project', Project);
 var WikiModel = mongoose.model('Wiki', Wiki);
 var UserModel = mongoose.model('User', User);
+var AttachmentModel = mongoose.model('Attachment', Attachment);
 
 module.exports.ProjectModel = ProjectModel;
 module.exports.TaskModel = TaskModel;
 module.exports.WikiModel = WikiModel;
 module.exports.UserModel = UserModel;
+module.exports.AttachmentModel = AttachmentModel;

@@ -3,6 +3,7 @@
  */
 var WikiModel = require('../model/mongoose').WikiModel;
 var ProjectModel = require('../model/mongoose').ProjectModel;
+var AttachmentModel = require('../model/mongoose').AttachmentModel;
 var async = require('async');
 
 function MakeWikiView(req, res, pageId){
@@ -105,6 +106,14 @@ function AddPage(socket, pageInfo) {
         title: pageInfo.page_title,
         text: pageInfo.content,
         last_time_update: Date.now()
+    });
+    
+    pageInfo.attachments.forEach(function(item, i, arr){
+        var attachment = new AttachmentModel({
+            page_id: page._id,
+            attachemntName: item
+        });
+        attachment.save();
     });
     
     page.save(function(err){

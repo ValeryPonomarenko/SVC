@@ -63,16 +63,22 @@ $(function() {
         var project_id = pathname[pathname.length-2];
         var page_title = $('#page_title').val();
         var pageContent = $('#summernote-add-page').summernote('code');
+        var imageAttachments = Array();
         
         if(page_title == '') { 
             $('#page_title').trigger('focus');
             return;
         }
         
+        $("button[id='buttonRemoveImage']").each(function(i, el){
+             imageAttachments.push($(this).attr('data-name'));
+        });
+        
         var pageInfo = {
             project_id: project_id,
             page_title: page_title,
-            content: pageContent
+            content: pageContent,
+            attachments: imageAttachments
         };
         
         socket.emit('add wiki', pageInfo);
