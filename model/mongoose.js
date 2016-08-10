@@ -43,7 +43,7 @@ var User = new Schema({
 
 var Attachment = new Schema({
     page_id: {type: String, required: true},
-    attachemntName: {type: String, required: true}
+    attachmentName: {type: String, unique: true, required: true}
 });
 
 var TaskModel = mongoose.model('Task', Task);

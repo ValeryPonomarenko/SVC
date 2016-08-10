@@ -84,6 +84,26 @@ $(function() {
         socket.emit('add wiki', pageInfo);
     });
     
+    $('#buttonUpdatePage').click(function(){
+        var pathname = location.pathname.split('/');
+        
+        var id = pathname[pathname.length-2];
+        var pageContent = $('#summernote-add-page').summernote('code');
+        var imageAttachments = Array();
+        
+        $("button[id='buttonRemoveImage']").each(function(i, el){
+             imageAttachments.push($(this).attr('data-name'));
+        });
+        
+        var pageInfo = {
+            id: id,
+            content: pageContent,
+            attachments: imageAttachments
+        };
+        
+        socket.emit('update wiki', pageInfo);
+    });
+    
     $(document).on('click', 'button#buttonRemoveImage', function(){
         var imageName = $(this).attr('data-name');
         $(this).parent().parent().parent().parent().fadeOut('500', function(){$(this).remove();});
@@ -119,7 +139,6 @@ $(function() {
         if (pageInfo.project_id != location.pathname.split('/')[2]) {
             return;
         }
-        alert('page added');
         var pageButton = $('<button class="list-group-item" id="page" data-id="' + pageInfo._id + '">' + pageInfo.title + '</button>');
         $('#pages').append(pageButton);
     });

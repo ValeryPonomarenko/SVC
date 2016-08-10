@@ -103,6 +103,9 @@ io.on('connection', function (socket) {
     socket.on('add wiki', function(pageInfo){
         WikiController.AddPage(socket, pageInfo);
     });
+    socket.on('update wiki', function(pageInfo){
+        WikiController.UpdatePage(socket, pageInfo);
+    });
     socket.on('remove page', function(pageId){
         WikiController.RemovePage(pageId);
     });
@@ -111,7 +114,7 @@ io.on('connection', function (socket) {
         FileController.SaveFile(socket, name, __dirname + '/public/attachments/', buffer);
     });
     socket.on('remove file', function(name){
-        FileController.RemoveFile(__dirname + '/public/attachments/' + name);
+        FileController.RemoveFile(__dirname + '/public/attachments/', name);
     });
 });
 

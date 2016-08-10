@@ -78,6 +78,9 @@ function MakeWikiEditPageView(req, res, pageId){
             },
             function(callback){
                 WikiModel.findById(pageId, callback);
+            },
+            function(callback){
+                AttachmentModel.find({page_id: pageId}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -92,6 +95,7 @@ function MakeWikiEditPageView(req, res, pageId){
                 page: 'edit',
                 wikiPageTitle: results[2].title,
                 wikiPageText: results[2].text,
+                attachments: results[3],
                 username: req.cookies.lionSession.username
             })
         });
@@ -111,7 +115,7 @@ function AddPage(socket, pageInfo) {
     pageInfo.attachments.forEach(function(item, i, arr){
         var attachment = new AttachmentModel({
             page_id: page._id,
-            attachemntName: item
+            attachmentName: item
         });
         attachment.save();
     });
@@ -122,6 +126,37 @@ function AddPage(socket, pageInfo) {
             io.emit('page added', page);
         } else {
             socket.emit('page status', 'Something went wrong, try again later.');
+        }
+    });
+}
+
+function UpdatePage(socket, pageInfo){
+    WikiModel.findById(pageInfo.id, function(err, page){
+        if(!err){
+            page.text = pageInfo.content;
+            
+            pageInfo.attachments.forEach(function(item, i, arr){
+                AttachmentModel.find({attachmentName: item}, function(err, object){
+                    if(object.length == 0){
+                        var attachment = new AttachmentModel({
+                            page_id: page._id,
+                            attachmentName: item
+                        });
+                        attachment.save();
+                    }
+                });
+            });
+            
+            page.save(function(err){
+                if(!err){
+                    socket.emit('page status', '<a href="/wiki/'+page.project_id+'/'+page._id+'">Page</a> was updated!');
+            io.emit('page added', page);
+                } else {
+                    socket.emit('page status', 'Something went wrong, try again later.');
+                }
+            });
+        } else {
+            console.log('UpdatePage - error');
         }
     });
 }
@@ -151,4 +186,5 @@ module.exports.MakeWikiAddPageView = MakeWikiAddPageView;
 module.exports.MakeWikiEditPageView = MakeWikiEditPageView;
 module.exports.GetPage = GetPage;
 module.exports.AddPage = AddPage;
+module.exports.UpdatePage = UpdatePage;
 module.exports.RemovePage = RemovePage;

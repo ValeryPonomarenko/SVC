@@ -18,7 +18,11 @@
                     </span>
                 </div>
                 <hr>
-                <div id="images"></div>
+                <div id="images">
+                    <% attachments.forEach(function(attachment){%>
+                    <div class="media"><div class="media-left media-middle"><img src="/attachments/<%=attachment.attachmentName%>" alt="" class="media-object" style="height: 90px"></div><div class="media-body"><div class="input-group"><input type="text" class="form-control" value="/attachments/<%=attachment.attachmentName%>" readonly><span class="input-group-btn"><button class="btn btn-danger" id="buttonRemoveImage" data-name="<%=attachment.attachmentName%>"><i class="fa fa-remove"></i></button></span></div></div></div>
+                    <%});%>
+                </div>
             </div>
         </div>
     </div>
