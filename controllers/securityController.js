@@ -8,15 +8,17 @@ function CheckAuth(req, res, callback){
     } else {
         async.parallel([
             function(callback){
-                UserModel.find({username: req.cookies.lionSession.username}, callback);
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, user){
-            if(user){
+            
+            if(user[0] != null){
                 callback();
             } else {
+                res.clearCookie('lionSession');
                 res.render('errors/403');
                 return false;
-            }
+            };
         });
     }
 }

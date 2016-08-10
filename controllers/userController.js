@@ -27,10 +27,10 @@ function RegUser(username, passowrd, email, firstname, res){
 function CheckUser(username, password, res){
     async.parallel([
         function(callback){
-            UserModel.find({username: username, password: password}, callback);
+            UserModel.findOne({username: username, password: password}, callback);
         }
     ], function(err, user){
-        if(user){
+        if(user[0] != null){
             res.cookie('lionSession', {username: username});
             res.redirect('/board');
         } else {
