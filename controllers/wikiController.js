@@ -4,6 +4,7 @@
 var WikiModel = require('../model/mongoose').WikiModel;
 var ProjectModel = require('../model/mongoose').ProjectModel;
 var AttachmentModel = require('../model/mongoose').AttachmentModel;
+var UserModel = require('../model/mongoose').UserModel;
 var async = require('async');
 
 function MakeWikiView(req, res, pageId){
@@ -17,6 +18,9 @@ function MakeWikiView(req, res, pageId){
             },
             function(callback){
                 WikiModel.find({project_id: req.params.projectId}, callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -31,7 +35,10 @@ function MakeWikiView(req, res, pageId){
                 page: 'index',
                 pages: results[2],
                 pageId: pageId,
-                username: req.cookies.lionSession.username
+                user:{
+                    name: results[3].firstname,
+                    imgUrl: results[3].profileImg
+                }
             })
         });
     };
@@ -47,6 +54,9 @@ function MakeWikiAddPageView(req, res){
             },
             function(callback){
                 ProjectModel.find(callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -59,7 +69,10 @@ function MakeWikiAddPageView(req, res){
                 projectName: results[0].title,
                 projects: results[1],
                 page: 'add',
-                username: req.cookies.lionSession.username
+                user:{
+                    name: results[2].firstname,
+                    imgUrl: results[2].profileImg
+                }
             })
         });
     };
@@ -81,6 +94,9 @@ function MakeWikiEditPageView(req, res, pageId){
             },
             function(callback){
                 AttachmentModel.find({page_id: pageId}, callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -96,7 +112,10 @@ function MakeWikiEditPageView(req, res, pageId){
                 wikiPageTitle: results[2].title,
                 wikiPageText: results[2].text,
                 attachments: results[3],
-                username: req.cookies.lionSession.username
+                user:{
+                    name: results[4].firstname,
+                    imgUrl: results[4].profileImg
+                }
             })
         });
     };

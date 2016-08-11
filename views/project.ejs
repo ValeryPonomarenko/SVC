@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><%= projectName %> :: Wiki :: Indian Lion </title>
+        <title><%= projectName %> :: Indian Lion </title>
 
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/style.css" rel="stylesheet">
@@ -47,7 +47,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span id="username"><%=username%></span> <span class="caret"></span></a>
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="img-circle" src="<%=user.imgUrl%>" style="height: 20px;"> <span id="username" data-username="<%=user.username%>"><%=user.name%></span> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/profile">Profile</a></li>
                                 <li><a href="/logout">Log out</a></li>

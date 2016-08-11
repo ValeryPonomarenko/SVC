@@ -93,7 +93,7 @@ $(function() {
     $('button#assignToMe').click(function(){
         if($('#assignedUser').is(':empty')){
             var pathname = location.pathname.split('/');
-            socket.emit('assignee added', $('span#username').text(), pathname[pathname.length-1]);
+            socket.emit('assignee added', $('span#username').attr('data-username'), pathname[pathname.length-1]);
         }
     });
 
@@ -111,7 +111,7 @@ $(function() {
         $('#addTaskForm').trigger('reset');
         $('#summernote').summernote('code', '');
         $('#addTaskButton').button('reset');
-        var taskButton = $('<button class="list-group-item ' + taskInfo.label + '" id="task" data-id="' + taskInfo.id + '">' + taskInfo.title + '</button>');
+        var taskButton = $('<button class="list-group-item ' + taskInfo.label + '" id="task" data-id="' + taskInfo.id + '">' + taskInfo.title + '<div class="pull-right"><span class="label label-info">'+taskInfo.due_date+'</span></div></button>');
         $('#tasks').append(taskButton);
         $('#addTaskModal').modal('hide');
     });
@@ -127,12 +127,13 @@ $(function() {
         $('#task-duedate').text(taskInfo.due_date);
         $('#task-wikiPageId').attr('href', '/wiki/'+taskInfo.project_id+'/'+taskInfo.wikiPageId);
         
+        $('#assignedUser').empty();
         if(taskInfo.assignee != undefined){
             $('button#assignToMe').fadeOut();
-            $('#assignedUser').text(taskInfo.assignee);
+            var userInfo = $();
+            $('#assignedUser').append('<img class="img-circle" src="'+taskInfo.assignee.imgUrl+'" alt="" style="height: 20px;"> '+taskInfo.assignee.name);
         } else {
             $('button#assignToMe').fadeIn();
-            $('#assignedUser').empty();
         }
         
         $('#task-info').fadeIn();
@@ -149,11 +150,11 @@ $(function() {
         });
     });
     
-    socket.on('assignee added', function (username, taskId){
+    socket.on('assignee added', function (user, taskId){
         var pathname = location.pathname.split('/');
         if (taskId == pathname[pathname.length - 1]) {
             $('button#assignToMe').fadeOut();
-            $('#assignedUser').append('<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzu947KXQJ74ZYxf5DPPUH0sAYLLSG--wXYM8XJ2wA_JNggPDh3Q9Fgfg" alt="" style="width:20px;">'+username);
+            $('#assignedUser').append('<img class="img-circle" src="'+user.imgUrl+'" alt="" style="height: 20px;"> '+user.firstname);
         }
     });
 });

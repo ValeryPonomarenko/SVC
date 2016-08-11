@@ -1,20 +1,9 @@
 var ProjectModel = require('../model/mongoose').ProjectModel;
 var TaskModel = require('../model/mongoose').TaskModel;
+var UserModel = require('../model/mongoose').UserModel;
 var async = require('async');
 
 function MakeView(req, res){
-    /*
-    callback = function(){
-        ProjectModel.find(function(err, projects){
-            if(!err){
-                res.render('board',{
-                    projects: projects,
-                    username: req.cookies.lionSession.username
-                });
-            }
-        });
-    };
-    */
     callback = function(){
         async.parallel([
             function(callback){
@@ -22,6 +11,9 @@ function MakeView(req, res){
             },
             function(callback){
                 TaskModel.find({assignee: req.cookies.lionSession.username}, callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -31,9 +23,12 @@ function MakeView(req, res){
             
             res.render('board', {
                 projects: results[0],
-                username: req.cookies.lionSession.username,
+                user:{
+                    name: results[2].firstname,
+                    imgUrl: results[2].profileImg
+                },
                 tasks: results[1]
-            })
+            });
         });
     };
     

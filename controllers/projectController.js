@@ -1,6 +1,7 @@
 var TaskModel = require('../model/mongoose').TaskModel;
 var ProjectModel = require('../model/mongoose').ProjectModel;
 var WikiModel = require('../model/mongoose').WikiModel;
+var UserModel = require('../model/mongoose').UserModel;
 var async = require('async');
 
 function MakeTaskView(req, res, taskId){
@@ -17,6 +18,9 @@ function MakeTaskView(req, res, taskId){
             },
             function(callback){
                 WikiModel.find({project_id: req.params.projectId}, callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -31,7 +35,11 @@ function MakeTaskView(req, res, taskId){
                 projects: results[1],
                 tasks: results[2],
                 taskId: taskId,
-                username: req.cookies.lionSession.username,
+                user:{
+                    username: req.cookies.lionSession.username,
+                    name: results[4].firstname,
+                    imgUrl: results[4].profileImg
+                },
                 wikiPages: results[3]
             })
         });
@@ -51,6 +59,9 @@ function MakeKanbanView(req, res){
             },
             function(callback){
                 WikiModel.find({project_id: req.params.projectId}, callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -63,7 +74,11 @@ function MakeKanbanView(req, res){
                 projectId: req.params.projectId,
                 projectName: 'Kanban :: ' + results[0].title,
                 projects: results[1],
-                username: req.cookies.lionSession.username,
+                user:{
+                    username: req.cookies.lionSession.username,
+                    name: results[3].firstname,
+                    imgUrl: results[3].profileImg
+                },
                 wikiPages: results[2]
             })
         });
@@ -83,6 +98,9 @@ function MakeReportView(req, res){
             },
             function(callback){
                 WikiModel.find({project_id: req.params.projectId}, callback);
+            },
+            function(callback){
+                UserModel.findOne({username: req.cookies.lionSession.username}, callback);
             }
         ], function(err, results){
             if(!results[0]){
@@ -95,7 +113,11 @@ function MakeReportView(req, res){
                 projectId: req.params.projectId,
                 projectName: 'Report :: ' + results[0].title,
                 projects: results[1],
-                username: req.cookies.lionSession.username,
+                user:{
+                    username: req.cookies.lionSession.username,
+                    name: results[3].firstname,
+                    imgUrl: results[3].profileImg
+                },
                 wikiPages: results[2]
             })
         });
@@ -128,7 +150,8 @@ function AddTask(socket, taskInfo){
                 project_id: task.project_id,
                 id: task._id,
                 title: task.title,
-                label: task.label
+                label: task.label,
+                due_date: task.due_date
             });
         } else {
             socket.emit('task add error', { msg: 'Error #' + err.code + '. Try again later.'});
@@ -139,7 +162,19 @@ function AddTask(socket, taskInfo){
 function GetTask(socket, taskId){
     TaskModel.findById(taskId, function(err, task){
         if(!err){
-            socket.emit('get task', task, 'empty');
+            UserModel.findOne({username: task.assignee}, function(err, user){
+                if(!err){
+                    var newTask = JSON.parse(JSON.stringify(task));
+                    if(user != null){
+                        newTask.assignee = {
+                            name: user.firstname,
+                            username: task.assignee,
+                            imgUrl: user.profileImg
+                        };
+                    }
+                    socket.emit('get task', newTask, 'empty');
+                }
+            });
         } else {
             console.log('error');
         }
@@ -163,9 +198,13 @@ function AddAssignee(username, taskId){
                 task.assignee = username;
                 task.save(function(err){
                     if(!err){
-                        io.emit('assignee added', username, taskId);
+                        UserModel.findOne({username: username}, function(err, user){
+                            if(!err){
+                                io.emit('assignee added', {firstname: user.firstname, imgUrl: user.profileImg}, taskId);
+                            }
+                        });
                     } else {
-                        console.log('error ' + err);
+                        console.log('Add assignee error ' + err);
                     }
                 });
             }
