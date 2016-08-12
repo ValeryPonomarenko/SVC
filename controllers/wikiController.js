@@ -169,7 +169,7 @@ function UpdatePage(socket, pageInfo){
             page.save(function(err){
                 if(!err){
                     socket.emit('page status', '<a href="/wiki/'+page.project_id+'/'+page._id+'">Page</a> was updated!');
-            io.emit('page added', page);
+                    io.emit('page updated', page);
                 } else {
                     socket.emit('page status', 'Something went wrong, try again later.');
                 }

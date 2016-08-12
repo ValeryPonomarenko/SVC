@@ -153,4 +153,11 @@ $(function() {
             $(this).remove();
         }); 
     });
+    
+    socket.on('page updated', function(page){
+        var pathname = location.pathname.split('/');
+        if (page._id == pathname[pathname.length - 1]) {
+            $('#page-body').html(page.text);
+        }
+    });
 });
